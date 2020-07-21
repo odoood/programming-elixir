@@ -25,6 +25,17 @@ defmodule MyList do
       [head | caesar(tail, n)]
     end
   end
+
+  # Return list of numbers from 'from' up to 'to'
+  def span(from, to) when not is_integer(from) or not is_integer(to), do: raise "'From' and 'to' must be integers"
+  def span(from, to) when from == to, do: []
+  def span(from, to) do
+    if to - from > 1 do
+      [ from | span(from + 1, to)]
+    else
+      [ from, to ]
+    end
+  end
 end
 
 # MyList.caesar('ryvkve', 13)
