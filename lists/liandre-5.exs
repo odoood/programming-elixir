@@ -13,4 +13,15 @@ defmodule Liandre do
       all?(tail)
     end
   end
+
+  # Execute function on each item
+  def all?([], fun) when is_function(fun), do: true
+
+  def all?([head|tail], fun) when is_function(fun) do
+    if !fun.(head) do
+      false
+    else
+      all?(tail, fun)
+    end
+  end
 end
