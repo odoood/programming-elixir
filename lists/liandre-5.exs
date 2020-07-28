@@ -67,4 +67,33 @@ defmodule Liandre do
       filter(tail, fun)
     end
   end
+
+  #
+  # Implement Enum.split
+  #
+  def split(list, count)
+  def split(_list, count) when not is_integer(count) do
+    raise "Count must be an integer"
+  end
+
+  def split(list, count) when count == 0, do: {[], list}
+
+  def split(list, count) when count < 0 do
+
+    l = len(list)
+    n = count + l
+
+    if n < 0 do
+      {[], list}
+    else
+      front = get(list, n)
+      {front, list -- front}
+    end
+  end
+
+  def split(list, count) when count > 0 do
+    front = get(list, count)
+    {front, list -- front}
+  end
+
 end
