@@ -1,5 +1,19 @@
 # ListsAndRecursion-5
 defmodule Liandre do
+
+  # Private function to get the length of list
+  defp len([]), do: 0
+  defp len([_|tail]) do
+    1 + len(tail)
+  end
+
+  # Private function to return first n elements of list
+  defp get([], _n), do: []
+  defp get([_head|_tail], 0), do: []
+  defp get([head|tail], n) do
+    [head | get(tail, n-1)]
+  end
+
   #
   # Implement Enum.all?
   #
