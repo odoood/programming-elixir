@@ -96,4 +96,25 @@ defmodule Liandre do
     {front, list -- front}
   end
 
+  #
+  # Implement Enum.take
+  #
+  def take(list, count)
+
+  def take(_list, count) when count == 0, do: []
+
+  def take([head|tail], count) when is_integer(count) and count > 0 do
+    # Use the private get
+    get([head|tail], count)
+  end
+
+  def take([head|tail], count) when is_integer(count) and count < 0 do
+    fcount = len([head|tail]) + count
+
+    if fcount <= 0 do
+      [head|tail]
+    else
+      [head|tail] -- get([head|tail], fcount)
+    end
+  end
 end
