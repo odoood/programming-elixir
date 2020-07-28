@@ -38,4 +38,19 @@ defmodule Liandre do
     fun.(head)
     each(tail, fun)
   end
+
+  #
+  # Implement Enum.filter
+  #
+  def filter(list, fun)
+
+  def filter([], fun) when is_function(fun), do: []
+
+  def filter([head|tail], fun) when is_function(fun) do
+    if fun.(head) do
+      [ head | filter(tail, fun) ]
+    else
+      filter(tail, fun)
+    end
+  end
 end
