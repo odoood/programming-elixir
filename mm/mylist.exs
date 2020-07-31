@@ -27,8 +27,11 @@ defmodule MyList do
   end
 
   # Return list of numbers from 'from' up to 'to'
-  def span(from, to) when not is_integer(from) or not is_integer(to), do: raise "'From' and 'to' must be integers"
-  def span(from, to) when from == to, do: []
+  def span(from, to) when not is_integer(from) or not is_integer(to) do
+    raise "'From' and 'to' must be integers"
+  end
+  def span(from, to) when from > to, do: []
+  def span(from, to) when from == to, do: [from]
   def span(from, to) do
     if to - from > 1 do
       [ from | span(from + 1, to)]
