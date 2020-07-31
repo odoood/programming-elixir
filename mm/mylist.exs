@@ -39,6 +39,15 @@ defmodule MyList do
       [ from, to ]
     end
   end
+
+  # Return list of prime numbers from 2 to n
+  def primes(n)
+  def primes(n) when is_integer(n) do
+    span(2, n) -- for i <- span(2, n), j <- span(2, div(i+1, 2)), rem(i, j) == 0
+    do
+      i
+    end
+  end
 end
 
 # MyList.caesar('ryvkve', 13)
