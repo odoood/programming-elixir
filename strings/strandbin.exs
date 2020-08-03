@@ -12,4 +12,18 @@ defmodule StrAndBin do
     # They must be the same length and have the same chars
     Enum.count(word1) == Enum.count(word2) and word1 -- word2 == []
   end
+
+  # Function to print a list bitstrings centered on the middle of the longest
+  def center(list) when is_list(list) do
+    if !Enum.all?(list, &(String.printable?(&1))) do
+      raise "List can only contain bitstrings"
+    end
+    maxlen = Enum.max(Enum.map(list, &(String.length(&1))))
+    Enum.each list, fn b ->
+      len = String.length(b)
+      String.pad_leading(b, len + div(maxlen-len, 2)) \
+        |> String.pad_trailing(maxlen)
+        |> IO.puts
+    end
+  end
 end
