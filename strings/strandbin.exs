@@ -26,4 +26,12 @@ defmodule StrAndBin do
         |> IO.puts
     end
   end
+
+  # Capitalize sentences in a string
+  def capitalize_sentences(str) when is_binary(str) do
+
+    # Split into sentences then capitalize and join
+    sentences = String.split(str,". ") |> Enum.map(&(String.capitalize(&1)))
+    Enum.join sentences, ". "
+  end
 end
