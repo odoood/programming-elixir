@@ -19,3 +19,8 @@ defmodule FizzBuzz do
     end
   end
 end
+
+defmodule ControlFlow do
+  def ok!({:ok, data}), do: data
+  def ok!({code, _}) when is_atom(code), do: raise "Expected :ok, got code :#{code}"
+end
