@@ -25,7 +25,7 @@ defmodule Link4 do
   end
 
   def run do
-    spawn_link(Link4, :pop, [self()])
+    spawn_monitor(Link4, :pop, [self()])
     sleep 500
     trace(1)
   end
