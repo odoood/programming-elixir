@@ -26,6 +26,11 @@ defmodule TickerClient do
 
   defp register(:undefined) do
     # This is the first client in the ring so create and register its PID
+    pid = spawn(__MODULE__, :ticknext, [self()])
+    :global.register_name(@name, pid)
+  end
 
+  def ticknext(pid) do
+    IO.puts "New pid spawned: #{inspect pid}"
   end
 end
