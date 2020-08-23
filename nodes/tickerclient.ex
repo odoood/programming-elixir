@@ -12,17 +12,15 @@ defmodule TickerClient do
 
   @interval 2000    # 2 seconds
   @name     :og     # The original client
-  @newmsg   {:new}  # Message sent/received for adding a new client
-  @tickmsg  {:tick} # Message sent/received for ticking a client
+  @newmsg   :new    # Message sent/received for adding a new client
+  @tickmsg  :tick   # Message sent/received for ticking a client
 
 
   @doc """
-  start.
-
   Create a new server/client in the ring, attaching it to the "end" of the ring,
   just behind the original (if it exists).
   """
-  def start do
+  def create do
     # Register the new client in the ring, with the original PID as a reference
     register(:global.whereis_name @name)
   end
@@ -38,10 +36,18 @@ defmodule TickerClient do
     send pid, @newmsg
   end
 
+  @doc """
+  Start the ticking (at the first client)
+  """
+  def start, do: _start(:global.whereis_name @name)
+
+  defp _start(:undefined),  do: raise "No clients exist."
+  defp _start(pid),         do: send pid, @tickmsg
+
   def ticknext(@name) do
     # Takes its name to identify itself as the first client process and
     # calls the ticknext fn with its own pid after receiving any initial message
-    IO.puts "First client starting: #{inspect self()}"
+    IO.puts "First client created: #{inspect self()}"
     ticknext(self())
   end
 
