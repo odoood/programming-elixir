@@ -12,6 +12,9 @@ defmodule Ticker do
     send :global.whereis_name(@name), { :register, client_pid }
   end
 
+  # Send successive ticks to each registered client
+  # i.e. the 1st goes to the first, 2nd to the 2nd, ...
+  # and after the last client, start from the beginning
   def generator(clients) do
     receive do
       { :register, pid } ->
@@ -20,10 +23,18 @@ defmodule Ticker do
     after
       @interval ->
         IO.puts "tick"
-        Enum.each clients, fn client ->
-          send client, { :tick }
+
+        # Get the "next" client to send a message, then shift it to the end
+        unless Enum.empty? clients do
+
+          [next|tail] = Enum.reverse(clients)
+
+          send next, { :tick }
+
+          generator([next | Enum.reverse(tail)])
+        else
+          generator(clients)
         end
-        generator(clients)
     end
   end
 end
