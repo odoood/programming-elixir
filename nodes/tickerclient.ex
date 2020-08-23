@@ -12,6 +12,8 @@ defmodule TickerClient do
 
   @interval 2000    # 2 seconds
   @name     :og     # The original client
+  @newmsg   {:new}  # Message sent/received for adding a new client
+
 
   @doc """
   start.
@@ -30,7 +32,21 @@ defmodule TickerClient do
     :global.register_name(@name, pid)
   end
 
+  defp register(pid) do
+    # This is not the first, so add a new one to the ring
+    send pid, @newmsg
+  end
+
   def ticknext(pid) do
-    IO.puts "New pid spawned: #{inspect pid}"
+
+    # Wait for a message from another client
+    receive do
+
+      @newmsg ->
+
+        IO.puts "A new client to be added..."
+
+        ticknext(pid)
+    end
   end
 end
