@@ -10,6 +10,8 @@ defmodule TickerClient do
   where there is a sole `TickerClient`).
   """
 
+  import :global, only: [ whereis_name: 1 ]
+
   @interval 2000    # 2 seconds
   @name     :og     # The original client
   @newmsg   :new    # Message sent/received for adding a new client
@@ -22,7 +24,7 @@ defmodule TickerClient do
   """
   def create do
     # Register the new client in the ring, with the original PID as a reference
-    register(:global.whereis_name @name)
+    register(whereis_name @name)
   end
 
   defp register(:undefined) do
@@ -39,7 +41,7 @@ defmodule TickerClient do
   @doc """
   Start the ticking (at the first client)
   """
-  def start, do: _start(:global.whereis_name @name)
+  def start, do: _start(whereis_name @name)
 
   defp _start(:undefined),  do: raise "No clients exist."
   defp _start(pid),         do: send pid, @tickmsg
