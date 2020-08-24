@@ -60,7 +60,7 @@ defmodule TickerClient do
 
       @tickmsg ->
 
-        IO.puts "tock from client!"
+        IO.puts "tock from client: #{inspect self()}"
         IO.puts "Sending tick to next client: #{inspect pid}"
 
         # Sleep for the interval then tick the next client
@@ -71,9 +71,25 @@ defmodule TickerClient do
 
       @newmsg ->
 
-        IO.puts "A new client to be added..."
+        # For the client before the first, add a new client process to the end
+        # and set the target of the new process to the first--for all others,
+        # pass the message to the next client
+        opid = whereis_name(@name)
 
-        ticknext(pid)
+        if pid === opid do
+
+          newpid = spawn(__MODULE__, :ticknext, [opid])
+
+          IO.puts "Adding new client: #{inspect newpid}"
+
+          ticknext(newpid)
+
+        else
+
+          send pid, @newmsg
+
+          ticknext(pid)
+        end
     end
   end
 end
