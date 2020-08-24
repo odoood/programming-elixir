@@ -9,4 +9,8 @@ defmodule StackServer do
   def handle_call(:pop, _from, [tip|rest]) do
     {:reply, tip, rest }
   end
+
+  def handle_cast({:push, new_item}, current_stack) do
+    {:noreply, [new_item|current_stack]}
+  end
 end
