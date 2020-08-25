@@ -30,4 +30,9 @@ defmodule StackServer do
   def handle_cast({:push, new_item}, current_stack) do
     {:noreply, [new_item|current_stack]}
   end
+
+  def terminate(reason, state) do
+    IO.puts "**Server terminating, the reason:\n#{inspect reason, pretty: true}"
+    IO.puts "**Server terminating, the state:\n#{inspect state}"
+  end
 end
