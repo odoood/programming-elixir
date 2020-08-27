@@ -17,7 +17,11 @@ defmodule Stack.Server do
   end
 
   def init(_) do
-    { :ok, Stack.Stash.get() }
+    {
+      :ok,
+      Stack.Stash.get()
+      |> Enum.reverse
+    }
   end
 
   # Pop a value from the "end" of the stack
