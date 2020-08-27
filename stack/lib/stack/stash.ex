@@ -14,7 +14,7 @@ defmodule Stack.Stash do
   end
 
   def set(stack) do
-    GenServer.call(@me, { :set, stack })
+    GenServer.cast(@me, { :set, stack })
   end
 
   # Server implementation
