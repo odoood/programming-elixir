@@ -1,6 +1,6 @@
 defmodule Dictionary do
 
-  @name __MODULE__
+  @name {:global, __MODULE__}
 
   ##
   # External API
