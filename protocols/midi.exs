@@ -66,3 +66,23 @@ defimpl Enumerable, for: Midi do
     { :error, __MODULE__ }
   end
 end
+
+defimpl Collectable, for: Midi do
+  use Bitwise
+
+  def into(%Midi{content: content}) do
+    {
+      content,
+      fn
+        acc, {:cont, frame = %Midi.Frame{}} ->
+          acc <> Midi.Frame.to_binary(frame)
+
+        acc, :done ->
+          %Midi{content: acc}
+
+        _, :halt ->
+          :ok
+      end
+    }
+  end
+end
