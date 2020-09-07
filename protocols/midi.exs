@@ -57,4 +57,12 @@ defimpl Enumerable, for: Midi do
     frame_count = Enum.reduce(midi, 0, fn (_, count) -> count+1 end)
     { :ok, frame_count }
   end
+
+  def member?(%Midi{}, %Midi.Frame{}) do
+    { :error, __MODULE__ }
+  end
+
+  def slice(%Midi{}) do
+    { :error, __MODULE__ }
+  end
 end
